@@ -3,12 +3,13 @@ Student Result Verification System - Flask Backend
 Manages student data lookup, verification actions, and audit trail logging
 """
 
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, render_template, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
 import csv
 import json
 import os
 import tempfile
+import io
 from datetime import datetime
 from pathlib import Path
 from openpyxl import load_workbook, Workbook
@@ -464,24 +465,111 @@ def get_lookup_history():
 
 @app.route('/api/download-excel')
 def download_excel():
-    """Provide Excel file for download"""
+    """Generate and download Excel file with highlighted rows for issued certificates"""
     try:
-        if EXCEL_FILE.exists():
-            return send_from_directory(
-                str(EXCEL_FILE.parent),
-                EXCEL_FILE.name,
-                as_attachment=True,
-                download_name=f"Student_Records_Lookup_Tracker.xlsx"
-            )
-        else:
-            return jsonify({
-                "success": False,
-                "message": "Excel file not found"
-            }), 404
+        # Create a new workbook
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Student Records"
+        
+        # Read CSV and write to Excel
+        with open(CSV_FILE, 'r', encoding='utf-8') as f:
+            csv_reader = csv.reader(f)
+            for row_idx, row in enumerate(csv_reader, 1):
+                for col_idx, value in enumerate(row, 1):
+                    cell = ws.cell(row=row_idx, column=col_idx, value=value)
+                    
+                    # Format header row
+                    if row_idx == 1:
+                        cell.font = Font(bold=True, color="FFFFFF", size=11)
+                        cell.fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
+                        cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+        
+        # Load audit trail to find issued students
+        issued_roll_nos = set()
+        issued_dates = {}
+        if AUDIT_TRAIL_FILE.exists():
+            with open(AUDIT_TRAIL_FILE, 'r', encoding='utf-8') as f:
+                audit_trail = json.load(f)
+                # Get all students marked as "Issued"
+                for record in audit_trail:
+                    if record.get('action') == 'Issued':
+                        roll_no = str(record.get('roll_no')).strip()
+                        issued_roll_nos.add(roll_no)
+                        # Store the latest issued date for each student
+                        if roll_no not in issued_dates:
+                            issued_dates[roll_no] = record.get('timestamp', '')
+        
+        # Find Roll No column index
+        header_row = list(ws.iter_rows(min_row=1, max_row=1, values_only=True))[0]
+        roll_col_idx = None
+        for idx, col_name in enumerate(header_row, 1):
+            if col_name and 'Roll No' in str(col_name):
+                roll_col_idx = idx
+                break
+        
+        # Add Issued Date column header
+        timestamp_col = ws.max_column + 1
+        ws.cell(row=1, column=timestamp_col, value='Issued Date')
+        ws.cell(row=1, column=timestamp_col).font = Font(bold=True, color="FFFFFF")
+        ws.cell(row=1, column=timestamp_col).fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
+        ws.cell(row=1, column=timestamp_col).alignment = Alignment(horizontal="center", vertical="center")
+        
+        # Highlight issued students
+        if roll_col_idx:
+            red_fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
+            white_font = Font(color="FFFFFF", bold=True)
+            
+            for row_idx in range(2, ws.max_row + 1):
+                roll_cell = ws.cell(row=row_idx, column=roll_col_idx)
+                roll_value = str(roll_cell.value).strip() if roll_cell.value else ""
+                
+                if roll_value in issued_roll_nos:
+                    # Highlight entire row
+                    for col_idx in range(1, ws.max_column + 1):
+                        if col_idx != timestamp_col:  # Don't overwrite timestamp column
+                            cell = ws.cell(row=row_idx, column=col_idx)
+                            cell.fill = red_fill
+                            cell.font = white_font
+                    
+                    # Add issued date
+                    ws.cell(row=row_idx, column=timestamp_col, value=issued_dates.get(roll_value, ''))
+                    ws.cell(row=row_idx, column=timestamp_col).fill = red_fill
+                    ws.cell(row=row_idx, column=timestamp_col).font = white_font
+        
+        # Adjust column widths
+        for column in ws.columns:
+            max_length = 0
+            column_letter = get_column_letter(column[0].column)
+            for cell in column:
+                try:
+                    if cell.value and len(str(cell.value)) > max_length:
+                        max_length = len(str(cell.value))
+                except:
+                    pass
+            adjusted_width = min(max_length + 2, 30)
+            ws.column_dimensions[column_letter].width = adjusted_width
+        
+        # Save to bytes buffer
+        output = io.BytesIO()
+        wb.save(output)
+        output.seek(0)
+        
+        # Send file
+        return send_file(
+            output,
+            as_attachment=True,
+            download_name=f"Student_Records_Highlighted_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        
     except Exception as e:
+        print(f"Error generating Excel: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({
             "success": False,
-            "message": f"Error: {str(e)}"
+            "message": f"Error generating Excel: {str(e)}"
         }), 500
 
 # ============================================================
