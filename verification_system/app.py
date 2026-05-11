@@ -20,9 +20,9 @@ CORS(app)
 
 # Configuration
 BASE_DIR = Path(__file__).parent
-DATA_DIR = Path(r"C:\Users\lmutu\Downloads\LOOKUP APP")
-CSV_FILE = DATA_DIR / "AI_Data.csv"
-EXCEL_FILE = BASE_DIR / "AI_Data_Lookup_Tracker.xlsx"  # Changed to BASE_DIR
+# Use BASE_DIR for CSV file too (assumes CSV is in same folder as app.py)
+CSV_FILE = BASE_DIR / "AI_Data.csv"
+EXCEL_FILE = BASE_DIR / "AI_Data_Lookup_Tracker.xlsx"
 AUDIT_TRAIL_FILE = BASE_DIR / "audit_trail.json"
 LOOKUP_TRACKING_FILE = BASE_DIR / "lookup_history.json"
 
