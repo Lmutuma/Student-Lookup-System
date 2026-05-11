@@ -495,4 +495,4 @@ if __name__ == '__main__':
     if create_excel_from_csv():
         print("✓ Excel file ready for lookup tracking")
     
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    app.run(host='0.0.0.0', port=5000)
