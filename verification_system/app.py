@@ -484,6 +484,35 @@ def download_excel():
             "message": f"Error: {str(e)}"
         }), 500
 
+# ============================================================
+# NEW ENDPOINT - Check if student has been issued a certificate
+# ============================================================
+@app.route('/api/student-issued-status/<roll_no>')
+def get_student_issued_status(roll_no):
+    """Check if a student has been issued a certificate"""
+    try:
+        if AUDIT_TRAIL_FILE.exists():
+            with open(AUDIT_TRAIL_FILE, 'r', encoding='utf-8') as f:
+                audit_trail = json.load(f)
+            
+            # Find all issued records for this student
+            issued_records = [r for r in audit_trail if r['roll_no'] == roll_no and r['action'] == 'Issued']
+            
+            if issued_records:
+                # Get the most recent issued record
+                latest = issued_records[-1]
+                return jsonify({
+                    "success": True,
+                    "issued": True,
+                    "timestamp": latest['timestamp'],
+                    "officer_name": latest['officer_name'],
+                    "comments": latest.get('comments', '')
+                })
+        
+        return jsonify({"success": True, "issued": False})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
 if __name__ == '__main__':
     print(f"Loaded {len(STUDENTS)} students from CSV")
     print(f"CSV file: {CSV_FILE}")

@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Result Verification System</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #3498db;
@@ -20,8 +15,9 @@
             --light-bg: #ecf0f1;
             --text-dark: #2c3e50;
             --border-color: #bdc3c7;
+            --issued-bg: #ffebee;
+            --issued-border: #e74c3c;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -29,7 +25,6 @@
             padding: 20px;
             color: var(--text-dark);
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -38,44 +33,27 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             overflow: hidden;
         }
-
         .header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             padding: 30px 20px;
             text-align: center;
         }
-
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
+        .header h1 { font-size: 28px; margin-bottom: 5px; }
+        .header p { font-size: 14px; opacity: 0.9; }
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             padding: 30px;
         }
-
-        @media (max-width: 1024px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
+        @media (max-width: 1024px) { .main-content { grid-template-columns: 1fr; } }
         .section {
             padding: 20px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             background: var(--light-bg);
         }
-
         .section h2 {
             color: var(--primary-color);
             font-size: 20px;
@@ -83,11 +61,7 @@
             padding-bottom: 10px;
             border-bottom: 2px solid var(--secondary-color);
         }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
+        .form-group { margin-bottom: 18px; }
         .form-group label {
             display: block;
             font-weight: 600;
@@ -95,10 +69,7 @@
             color: var(--text-dark);
             font-size: 14px;
         }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid var(--border-color);
@@ -107,20 +78,12 @@
             font-family: inherit;
             transition: border-color 0.3s;
         }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--secondary-color);
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
+        .form-group textarea { resize: vertical; min-height: 80px; }
         button {
             background: var(--secondary-color);
             color: white;
@@ -133,31 +96,10 @@
             transition: background 0.3s;
             width: 100%;
         }
-
-        button:hover {
-            background: #2980b9;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .button-secondary {
-            background: var(--success-color);
-        }
-
-        .button-secondary:hover {
-            background: #229954;
-        }
-
-        .button-danger {
-            background: var(--danger-color);
-        }
-
-        .button-danger:hover {
-            background: #c0392b;
-        }
-
+        button:hover { background: #2980b9; }
+        button:active { transform: scale(0.98); }
+        .button-secondary { background: var(--success-color); }
+        .button-secondary:hover { background: #229954; }
         .alert {
             padding: 15px;
             border-radius: 6px;
@@ -165,58 +107,56 @@
             border-left: 4px solid;
             animation: slideDown 0.3s ease;
         }
-
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .alert-success {
-            background-color: #d4edda;
-            border-color: var(--success-color);
-            color: #155724;
-        }
-
-        .alert-danger {
-            background-color: #f8d7da;
-            border-color: var(--danger-color);
-            color: #721c24;
-        }
-
-        .alert-info {
-            background-color: #d1ecf1;
-            border-color: var(--secondary-color);
-            color: #0c5460;
-        }
-
+        .alert-success { background-color: #d4edda; border-color: var(--success-color); color: #155724; }
+        .alert-danger { background-color: #f8d7da; border-color: var(--danger-color); color: #721c24; }
+        .alert-info { background-color: #d1ecf1; border-color: var(--secondary-color); color: #0c5460; }
+        .alert-warning { background-color: #fff3cd; border-color: var(--warning-color); color: #856404; }
         .student-card {
             background: white;
             padding: 20px;
             border-radius: 8px;
             margin-top: 15px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
         }
-
+        .student-card.issued {
+            background: var(--issued-bg);
+            border: 2px solid var(--issued-border);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+        .issued-badge {
+            background: var(--danger-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
         .student-details {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 15px;
         }
-
         .detail-item {
             padding: 12px;
             background: white;
             border-radius: 6px;
             border-left: 3px solid var(--secondary-color);
         }
-
+        .student-card.issued .detail-item { background: #fff5f5; }
         .detail-item strong {
             color: var(--primary-color);
             display: block;
@@ -224,19 +164,13 @@
             text-transform: uppercase;
             margin-bottom: 4px;
         }
-
-        .detail-item span {
-            font-size: 14px;
-            color: var(--text-dark);
-        }
-
+        .detail-item span { font-size: 14px; color: var(--text-dark); }
         .grades-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 15px;
         }
-
         .grade-item {
             text-align: center;
             padding: 10px;
@@ -244,26 +178,20 @@
             border-radius: 6px;
             border: 1px solid var(--border-color);
         }
-
+        .student-card.issued .grade-item { background: #fff5f5; }
         .grade-item small {
             display: block;
             color: #7f8c8d;
             font-size: 11px;
             margin-bottom: 5px;
         }
-
-        .grade-item strong {
-            font-size: 16px;
-            color: var(--secondary-color);
-        }
-
+        .grade-item strong { font-size: 16px; color: var(--secondary-color); }
         .action-selection {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin: 15px 0;
         }
-
         .action-btn {
             padding: 15px;
             border: 2px solid var(--border-color);
@@ -274,30 +202,21 @@
             font-weight: 600;
             transition: all 0.3s;
         }
-
         .action-btn:hover {
             border-color: var(--secondary-color);
             box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
         }
-
         .action-btn.selected {
             background: var(--secondary-color);
             color: white;
             border-color: var(--secondary-color);
         }
-
-        .action-btn.verified { color: var(--success-color); }
-        .action-btn.issued { color: var(--secondary-color); }
-        .action-btn.corrected { color: var(--warning-color); }
-        .action-btn.disputed { color: var(--danger-color); }
-
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-top: 15px;
         }
-
         .stat-box {
             padding: 12px;
             background: white;
@@ -305,19 +224,13 @@
             text-align: center;
             border: 1px solid var(--border-color);
         }
-
         .stat-box strong {
             display: block;
             font-size: 20px;
             color: var(--secondary-color);
             margin: 5px 0;
         }
-
-        .stat-box small {
-            color: #7f8c8d;
-            font-size: 12px;
-        }
-
+        .stat-box small { color: #7f8c8d; font-size: 12px; }
         .loading {
             display: inline-block;
             width: 20px;
@@ -329,21 +242,9 @@
             margin-right: 10px;
             vertical-align: middle;
         }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .info-text {
-            font-size: 12px;
-            color: #7f8c8d;
-            margin-top: 5px;
-        }
-
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .hidden { display: none !important; }
+        .info-text { font-size: 12px; color: #7f8c8d; margin-top: 5px; }
         .tabs {
             display: flex;
             gap: 10px;
@@ -351,7 +252,6 @@
             border-bottom: 2px solid var(--border-color);
             flex-wrap: wrap;
         }
-
         .tab-btn {
             padding: 10px 20px;
             background: transparent;
@@ -363,47 +263,29 @@
             margin-bottom: -2px;
             transition: all 0.3s;
         }
-
-        .tab-btn:hover {
-            color: var(--secondary-color);
-        }
-
+        .tab-btn:hover { color: var(--secondary-color); }
         .tab-btn.active {
             color: var(--secondary-color);
             border-bottom-color: var(--secondary-color);
         }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
         .audit-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
             font-size: 13px;
         }
-
         .audit-table thead {
             background: var(--primary-color);
             color: white;
         }
-
-        .audit-table th,
-        .audit-table td {
+        .audit-table th, .audit-table td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
-
-        .audit-table tbody tr:hover {
-            background: var(--light-bg);
-        }
-
+        .audit-table tbody tr:hover { background: var(--light-bg); }
         .status-badge {
             display: inline-block;
             padding: 4px 8px;
@@ -412,11 +294,12 @@
             font-weight: 600;
             text-transform: uppercase;
         }
-
-        .status-verified { background: #d4edda; color: #155724; }
-        .status-issued { background: #cfe2ff; color: #084298; }
+        .status-issued { background: #e74c3c; color: white; }
         .status-corrected { background: #fff3cd; color: #664d03; }
-        .status-disputed { background: #f8d7da; color: #721c24; }
+        .highlight-row {
+            background-color: #ffebee !important;
+            border-left: 4px solid #e74c3c !important;
+        }
     </style>
 </head>
 <body>
@@ -425,90 +308,43 @@
             <h1>🎓 Student Result Verification System</h1>
             <p>Verify and manage student academic records with audit trail</p>
         </div>
-
         <div class="main-content">
-            <!-- Left Section: Verification Form -->
             <div class="section">
                 <h2>Verification Form</h2>
-
                 <div id="alerts"></div>
-
-                <!-- Officer Name -->
                 <div class="form-group">
                     <label for="officerName">Officer Name <span style="color: red;">*</span></label>
-                    <input 
-                        type="text" 
-                        id="officerName" 
-                        placeholder="Enter your name"
-                        autocomplete="off"
-                    >
+                    <input type="text" id="officerName" placeholder="Enter your name" autocomplete="off">
                     <div class="info-text">Your name will be saved locally for convenience</div>
                 </div>
-
-                <!-- Student Lookup -->
                 <div class="form-group">
                     <label for="rollNo">Student Roll Number <span style="color: red;">*</span></label>
                     <div style="display: flex; gap: 10px;">
-                        <input 
-                            type="text" 
-                            id="rollNo" 
-                            placeholder="e.g., 0403AL231001"
-                            style="flex: 1;"
-                            autocomplete="off"
-                        >
-                        <button 
-                            id="searchBtn" 
-                            class="button-secondary"
-                            style="width: auto; padding: 12px 24px;"
-                        >Search</button>
+                        <input type="text" id="rollNo" placeholder="e.g., 0403AL231001" style="flex: 1;" autocomplete="off">
+                        <button id="searchBtn" class="button-secondary" style="width: auto; padding: 12px 24px;">Search</button>
                     </div>
                 </div>
-
-                <!-- Student Details -->
                 <div id="studentInfo" class="hidden">
-                    <div class="student-card">
+                    <div class="student-card" id="studentCard">
+                        <div id="issuedBadgeContainer"></div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                            <div>
-                                <strong style="color: var(--primary-color);">Name</strong>
-                                <p id="studentName"></p>
-                            </div>
-                            <div>
-                                <strong style="color: var(--primary-color);">Roll No</strong>
-                                <p id="studentRoll"></p>
-                            </div>
-                            <div>
-                                <strong style="color: var(--primary-color);">Program</strong>
-                                <p id="studentProgram"></p>
-                            </div>
-                            <div>
-                                <strong style="color: var(--primary-color);">Branch</strong>
-                                <p id="studentBranch"></p>
-                            </div>
-                            <div>
-                                <strong style="color: var(--primary-color);">Result Status</strong>
-                                <p id="studentStatus"></p>
-                            </div>
-                            <div>
-                                <strong style="color: var(--primary-color);">CGPA</strong>
-                                <p id="studentCGPA"></p>
-                            </div>
+                            <div><strong>Name</strong><p id="studentName"></p></div>
+                            <div><strong>Roll No</strong><p id="studentRoll"></p></div>
+                            <div><strong>Program</strong><p id="studentProgram"></p></div>
+                            <div><strong>Branch</strong><p id="studentBranch"></p></div>
+                            <div><strong>Result Status</strong><p id="studentStatus"></p></div>
+                            <div><strong>CGPA</strong><p id="studentCGPA"></p></div>
                         </div>
-
-                        <!-- Grades -->
                         <div style="margin-top: 15px;">
-                            <strong style="color: var(--primary-color); display: block; margin-bottom: 10px;">Subject Grades:</strong>
+                            <strong>Subject Grades:</strong>
                             <div class="grades-grid" id="gradesGrid"></div>
                         </div>
-
-                        <!-- Result Description -->
                         <div style="margin-top: 15px; padding: 12px; background: white; border-radius: 6px; border-left: 3px solid var(--secondary-color);">
-                            <strong style="color: var(--primary-color); display: block; margin-bottom: 5px;">Result Description</strong>
+                            <strong>Result Description</strong>
                             <p id="studentResultDesc"></p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Verification Actions -->
                 <div id="verificationSection" class="hidden" style="margin-top: 20px;">
                     <div class="form-group">
                         <label>Select Verification Action <span style="color: red;">*</span></label>
@@ -518,108 +354,46 @@
                         </div>
                         <input type="hidden" id="selectedAction">
                     </div>
-
-                    <!-- Comments -->
                     <div class="form-group">
                         <label for="comments">Comments (Optional)</label>
-                        <textarea 
-                            id="comments"
-                            placeholder="Add any additional notes or comments about this verification..."
-                        ></textarea>
+                        <textarea id="comments" placeholder="Add any additional notes or comments about this verification..."></textarea>
                     </div>
-
-                    <!-- Submit Button -->
-                    <button id="submitBtn" class="button-secondary">
-                        Submit Verification
-                    </button>
+                    <button id="submitBtn" class="button-secondary">Submit Verification</button>
                 </div>
             </div>
-
-            <!-- Right Section: Dashboard & History -->
             <div class="section">
                 <h2>Dashboard & Audit Trail</h2>
-
                 <div class="tabs">
                     <button class="tab-btn active" data-tab="stats">Statistics</button>
                     <button class="tab-btn" data-tab="history">Recent Activity</button>
                     <button class="tab-btn" data-tab="lookups">📊 Lookup History</button>
                     <button class="tab-btn" data-tab="downloads" style="margin-left: auto;">📥 Downloads</button>
                 </div>
-
-                <!-- Statistics Tab -->
                 <div id="stats" class="tab-content active">
                     <div class="stats-grid" id="statsGrid">
-                        <div class="stat-box">
-                            <small>Total Verifications</small>
-                            <strong id="statTotal">0</strong>
-                        </div>
-                        <div class="stat-box">
-                            <small>Issued</small>
-                            <strong id="statIssued" style="color: var(--secondary-color);">0</strong>
-                        </div>
-                        <div class="stat-box">
-                            <small>Corrected</small>
-                            <strong id="statCorrected" style="color: var(--warning-color);">0</strong>
-                        </div>
+                        <div class="stat-box"><small>Total Verifications</small><strong id="statTotal">0</strong></div>
+                        <div class="stat-box"><small>Issued</small><strong id="statIssued" style="color: var(--danger-color);">0</strong></div>
+                        <div class="stat-box"><small>Corrected</small><strong id="statCorrected" style="color: var(--warning-color);">0</strong></div>
                     </div>
                 </div>
-
-                <!-- History Tab -->
                 <div id="history" class="tab-content">
-                    <table class="audit-table">
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Officer</th>
-                                <th>Student</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="auditTableBody">
-                            <tr>
-                                <td colspan="4" style="text-align: center; color: #7f8c8d;">No records yet</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <table class="audit-table"><thead><tr><th>Time</th><th>Officer</th><th>Student</th><th>Action</th></tr></thead><tbody id="auditTableBody"><tr><td colspan="4" style="text-align: center;">No records yet</td></tr></tbody></table>
                 </div>
-
-                <!-- Lookup History Tab -->
                 <div id="lookups" class="tab-content">
-                    <p style="margin-bottom: 15px; color: #7f8c8d; font-size: 13px;">
-                        ℹ️ Students who have been <strong>issued certificates</strong> are <span style="background: #FF0000; color: white; padding: 2px 6px; border-radius: 3px;">highlighted in red</span> in the Excel file.
-                    </p>
-                    <table class="audit-table">
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Roll Number</th>
-                                <th>Student Name</th>
-                            </tr>
-                        </thead>
-                        <tbody id="lookupTableBody">
-                            <tr>
-                                <td colspan="3" style="text-align: center; color: #7f8c8d;">No lookups yet</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <p style="margin-bottom: 15px; color: #7f8c8d; font-size: 13px;">ℹ️ Students who have been <strong>issued certificates</strong> appear with a <span style="background: #e74c3c; color: white; padding: 2px 6px; border-radius: 3px;">red background</span> in search results.</p>
+                    <table class="audit-table"><thead><tr><th>Time</th><th>Roll Number</th><th>Student Name</th></tr></thead><tbody id="lookupTableBody"><tr><td colspan="3" style="text-align: center;">No lookups yet</td></tr></tbody></table>
                 </div>
-
-                <!-- Downloads Tab -->
                 <div id="downloads" class="tab-content">
                     <div style="padding: 20px; background: white; border-radius: 8px;">
-                        <h3 style="margin-bottom: 15px; color: var(--primary-color);">📥 Download Tracking Files</h3>
-                        
+                        <h3 style="margin-bottom: 15px;">📥 Download Tracking Files</h3>
                         <div style="margin-bottom: 20px; padding: 15px; background: #e3f2fd; border-radius: 6px; border-left: 4px solid var(--secondary-color);">
-                            <strong style="display: block; margin-bottom: 8px; color: var(--primary-color);">📊 Excel Lookup Tracker</strong>
-                            <p style="font-size: 13px; color: #555; margin-bottom: 12px;">Download the Excel file with all student records. Rows that have been looked up are <span style="background: #FF0000; color: white; padding: 1px 4px; border-radius: 2px;">highlighted in red</span>.</p>
-                            <button id="downloadExcelBtn" class="button-secondary" style="width: 100%;">
-                                ⬇ Download Excel File
-                            </button>
+                            <strong>📊 Excel Lookup Tracker</strong>
+                            <p style="font-size: 13px; margin: 8px 0;">Download the Excel file with all student records.</p>
+                            <button id="downloadExcelBtn" class="button-secondary">⬇ Download Excel File</button>
                         </div>
-
-                        <div style="padding: 15px; background: #f3e5f5; border-radius: 6px; border-left: 4px solid: #9c27b0;">
-                            <strong style="display: block; margin-bottom: 8px; color: var(--primary-color);">📈 Statistics</strong>
-                            <div id="downloadStats" style="font-size: 13px; color: #555;">
+                        <div style="padding: 15px; background: #f3e5f5; border-radius: 6px;">
+                            <strong>📈 Statistics</strong>
+                            <div id="downloadStats" style="font-size: 13px; margin-top: 8px;">
                                 <p>• Total Lookups: <span id="totalLookupsCount">0</span></p>
                                 <p>• Total Verifications: <span id="totalVerificationsCount">0</span></p>
                                 <p>• Last Activity: <span id="lastActivityTime">Never</span></p>
@@ -630,13 +404,12 @@
             </div>
         </div>
     </div>
-
     <script>
         const API_BASE = '/api';
         let currentStudent = null;
         let selectedAction = null;
+        let currentRollNo = null;
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             loadOfficerName();
             loadStats();
@@ -644,119 +417,66 @@
             setupEventListeners();
         });
 
-        // Load officer name from localStorage
         function loadOfficerName() {
             const saved = localStorage.getItem('officerName');
-            if (saved) {
-                document.getElementById('officerName').value = saved;
-            }
+            if (saved) document.getElementById('officerName').value = saved;
         }
 
-        // Save officer name to localStorage
         function saveOfficerName() {
             const name = document.getElementById('officerName').value.trim();
-            if (name) {
-                localStorage.setItem('officerName', name);
-            }
+            if (name) localStorage.setItem('officerName', name);
         }
 
-        // Setup event listeners
         function setupEventListeners() {
-            // Search button
             document.getElementById('searchBtn').addEventListener('click', searchStudent);
-
-            // Enter key on roll number
-            document.getElementById('rollNo').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    searchStudent();
-                }
-            });
-
-            // Action buttons
-            document.querySelectorAll('.action-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    selectAction(this);
-                });
-            });
-
-            // Submit button
+            document.getElementById('rollNo').addEventListener('keypress', function(e) { if (e.key === 'Enter') searchStudent(); });
+            document.querySelectorAll('.action-btn').forEach(btn => { btn.addEventListener('click', function() { selectAction(this); }); });
             document.getElementById('submitBtn').addEventListener('click', submitVerification);
-
-            // Tab buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    switchTab(this.dataset.tab);
-                });
-            });
-
-            // Download Excel button
+            document.querySelectorAll('.tab-btn').forEach(btn => { btn.addEventListener('click', function() { switchTab(this.dataset.tab); }); });
             document.getElementById('downloadExcelBtn').addEventListener('click', downloadExcel);
-
-            // Refresh stats every 5 seconds
-            setInterval(loadStats, 5000);
-            setInterval(loadAuditTrail, 5000);
-            setInterval(loadLookupHistory, 5000);
-            setInterval(loadDownloadStats, 5000);
-
-            // Initial load
+            setInterval(() => { loadStats(); loadAuditTrail(); loadLookupHistory(); loadDownloadStats(); }, 5000);
             loadLookupHistory();
             loadDownloadStats();
         }
 
-        // Search for student
         async function searchStudent() {
             const rollNo = document.getElementById('rollNo').value.trim();
-
-            if (!rollNo) {
-                showAlert('Please enter a roll number', 'danger');
-                return;
-            }
-
+            if (!rollNo) { showAlert('Please enter a roll number', 'danger'); return; }
+            currentRollNo = rollNo;
             const searchBtn = document.getElementById('searchBtn');
             searchBtn.disabled = true;
             searchBtn.innerHTML = '<span class="loading"></span>Searching...';
-
             try {
                 const response = await fetch(`${API_BASE}/student/${rollNo}`);
-                const contentType = response.headers.get('content-type') || '';
-
-                if (!contentType.includes('application/json')) {
-                    const text = await response.text();
-                    showAlert(`Server returned non-JSON response: ${text}`, 'danger');
-                    document.getElementById('studentInfo').classList.add('hidden');
-                    document.getElementById('verificationSection').classList.add('hidden');
-                    return;
-                }
-
                 const data = await response.json();
-
-                if (!response.ok) {
-                    showAlert(data.message || 'Student not found', 'danger');
-                    document.getElementById('studentInfo').classList.add('hidden');
-                    document.getElementById('verificationSection').classList.add('hidden');
-                    return;
-                }
-
                 if (data.success) {
                     displayStudent(data.data);
+                    await checkIssuedStatus(rollNo);
                     showAlert(`Student found: ${data.data.Name}`, 'info');
-                } else {
-                    showAlert(data.message || 'Student not found', 'danger');
-                    document.getElementById('studentInfo').classList.add('hidden');
-                    document.getElementById('verificationSection').classList.add('hidden');
-                }
-            } catch (error) {
-                showAlert(`Error: ${error.message}`, 'danger');
-            } finally {
-                searchBtn.disabled = false;
-                searchBtn.innerHTML = 'Search';
-            }
+                } else { showAlert(data.message || 'Student not found', 'danger'); hideStudentInfo(); }
+            } catch (error) { showAlert(`Error: ${error.message}`, 'danger'); }
+            finally { searchBtn.disabled = false; searchBtn.innerHTML = 'Search'; }
         }
 
-        // Display student details
+        async function checkIssuedStatus(rollNo) {
+            try {
+                const response = await fetch(`${API_BASE}/student-issued-status/${rollNo}`);
+                const data = await response.json();
+                const studentCard = document.getElementById('studentCard');
+                const badgeContainer = document.getElementById('issuedBadgeContainer');
+                if (data.success && data.issued) {
+                    studentCard.classList.add('issued');
+                    const date = new Date(data.timestamp).toLocaleString();
+                    badgeContainer.innerHTML = `<div class="issued-badge">🔴 CERTIFICATE ISSUED on ${date} by ${data.officer_name}${data.comments ? `<br>📝 ${data.comments}` : ''}</div>`;
+                } else {
+                    studentCard.classList.remove('issued');
+                    badgeContainer.innerHTML = '';
+                }
+            } catch (error) { console.error('Error checking issued status:', error); }
+        }
+
         function displayStudent(student) {
             currentStudent = student;
-
             document.getElementById('studentName').textContent = student.Name || '-';
             document.getElementById('studentRoll').textContent = student['Roll No'] || '-';
             document.getElementById('studentProgram').textContent = student.Program || '-';
@@ -764,34 +484,28 @@
             document.getElementById('studentStatus').textContent = student.Status || '-';
             document.getElementById('studentCGPA').textContent = student.CGPA || '-';
             document.getElementById('studentResultDesc').textContent = student['Result Description'] || '-';
-
-            // Display grades
             const gradeSubjects = ['AL401- [T]', 'AL402- [T]', 'AL403- [P]', 'AL404- [P]', 'AL405- [P]', 'AL406- [P]'];
             const gradesGrid = document.getElementById('gradesGrid');
             gradesGrid.innerHTML = '';
-
             gradeSubjects.forEach(subject => {
                 const grade = student[subject] || '-';
                 const gradeDiv = document.createElement('div');
                 gradeDiv.className = 'grade-item';
-                gradeDiv.innerHTML = `
-                    <small>${subject.split('-')[0].trim()}</small>
-                    <strong>${grade}</strong>
-                `;
+                gradeDiv.innerHTML = `<small>${subject.split('-')[0].trim()}</small><strong>${grade}</strong>`;
                 gradesGrid.appendChild(gradeDiv);
             });
-
-            // Show sections
             document.getElementById('studentInfo').classList.remove('hidden');
             document.getElementById('verificationSection').classList.remove('hidden');
-
-            // Reset selection
             selectedAction = null;
             document.querySelectorAll('.action-btn').forEach(btn => btn.classList.remove('selected'));
             document.getElementById('comments').value = '';
         }
 
-        // Select action
+        function hideStudentInfo() {
+            document.getElementById('studentInfo').classList.add('hidden');
+            document.getElementById('verificationSection').classList.add('hidden');
+        }
+
         function selectAction(btn) {
             document.querySelectorAll('.action-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
@@ -799,127 +513,99 @@
             document.getElementById('selectedAction').value = selectedAction;
         }
 
-        // Submit verification
         async function submitVerification() {
             const officerName = document.getElementById('officerName').value.trim();
             const rollNo = document.getElementById('rollNo').value.trim();
             const comments = document.getElementById('comments').value.trim();
-
-            if (!officerName) {
-                showAlert('Please enter officer name', 'danger');
-                return;
-            }
-
-            if (!selectedAction) {
-                showAlert('Please select a verification action', 'danger');
-                return;
-            }
-
+            if (!officerName) { showAlert('Please enter officer name', 'danger'); return; }
+            if (!selectedAction) { showAlert('Please select a verification action', 'danger'); return; }
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="loading"></span>Submitting...';
-
             try {
                 const response = await fetch(`${API_BASE}/verify`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        officer_name: officerName,
-                        roll_no: rollNo,
-                        student_name: currentStudent.Name,
-                        action: selectedAction,
-                        comments: comments
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ officer_name: officerName, roll_no: rollNo, student_name: currentStudent.Name, action: selectedAction, comments: comments })
                 });
-
                 const data = await response.json();
-
                 if (data.success) {
                     saveOfficerName();
                     showAlert(`✓ ${data.message}`, 'success');
-                    if (data.warning) {
-                        showAlert(data.warning, 'warning');
-                    }
-                    
-                    // Reset form
+                    if (selectedAction === 'Issued') await checkIssuedStatus(rollNo);
                     setTimeout(() => {
                         document.getElementById('rollNo').value = '';
                         document.getElementById('comments').value = '';
-                        document.getElementById('studentInfo').classList.add('hidden');
-                        document.getElementById('verificationSection').classList.add('hidden');
+                        hideStudentInfo();
                         selectedAction = null;
                         document.querySelectorAll('.action-btn').forEach(btn => btn.classList.remove('selected'));
-                        
-                        // Refresh stats
                         loadStats();
                         loadAuditTrail();
+                        loadLookupHistory();
                     }, 1500);
-                } else {
-                    showAlert(`Error: ${data.message}`, 'danger');
-                }
-            } catch (error) {
-                showAlert(`Error: ${error.message}`, 'danger');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Submit Verification';
-            }
+                } else { showAlert(`Error: ${data.message}`, 'danger'); }
+            } catch (error) { showAlert(`Error: ${error.message}`, 'danger'); }
+            finally { submitBtn.disabled = false; submitBtn.innerHTML = 'Submit Verification'; }
         }
 
-        // Load statistics
         async function loadStats() {
             try {
                 const response = await fetch(`${API_BASE}/stats`);
                 const data = await response.json();
-
                 if (data.success) {
-                    const stats = data.stats;
-                    document.getElementById('statTotal').textContent = stats.total_verifications;
-                    document.getElementById('statIssued').textContent = stats.issued;
-                    document.getElementById('statCorrected').textContent = stats.corrected;
+                    document.getElementById('statTotal').textContent = data.stats.total_verifications;
+                    document.getElementById('statIssued').textContent = data.stats.issued;
+                    document.getElementById('statCorrected').textContent = data.stats.corrected;
                 }
-            } catch (error) {
-                console.error('Error loading stats:', error);
-            }
+            } catch (error) { console.error('Error loading stats:', error); }
         }
 
-        // Load audit trail
         async function loadAuditTrail() {
             try {
                 const response = await fetch(`${API_BASE}/audit-trail`);
                 const data = await response.json();
-
                 if (data.success) {
-                    const records = data.records;
+                    const records = data.records.slice(-20).reverse();
                     const tbody = document.getElementById('auditTableBody');
-
-                    if (records.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #7f8c8d;">No records yet</td></tr>';
-                        return;
-                    }
-
-                    // Show last 20 records
-                    const recentRecords = records.slice(-20).reverse();
-                    tbody.innerHTML = recentRecords.map(record => {
-                        const time = new Date(record.timestamp).toLocaleTimeString();
-                        const date = new Date(record.timestamp).toLocaleDateString();
-                        return `
-                            <tr>
-                                <td>${date} ${time}</td>
-                                <td>${record.officer_name}</td>
-                                <td>${record.student_name}</td>
-                                <td><span class="status-badge status-${record.action.toLowerCase()}">${record.action}</span></td>
-                            </tr>
-                        `;
+                    if (records.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No records yet</td></tr>'; return; }
+                    tbody.innerHTML = records.map(record => {
+                        const time = new Date(record.timestamp).toLocaleString();
+                        return `<tr><td>${time}</td><td>${record.officer_name}</td><td>${record.student_name}</td><td><span class="status-badge status-${record.action.toLowerCase()}">${record.action}</span></td></tr>`;
                     }).join('');
                 }
-            } catch (error) {
-                console.error('Error loading audit trail:', error);
-            }
+            } catch (error) { console.error('Error loading audit trail:', error); }
         }
 
-        // Show alert message
+        async function loadLookupHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/lookup-history`);
+                const data = await response.json();
+                if (data.success) {
+                    const records = data.records.slice(-30).reverse();
+                    const tbody = document.getElementById('lookupTableBody');
+                    if (records.length === 0) { tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No lookups yet</td></tr>'; return; }
+                    tbody.innerHTML = records.map(record => {
+                        const time = new Date(record.timestamp).toLocaleString();
+                        return `<tr><td>${time}</td><td><strong>${record.roll_no}</strong></td><td>${record.student_name}</td></tr>`;
+                    }).join('');
+                }
+            } catch (error) { console.error('Error loading lookup history:', error); }
+        }
+
+        async function loadDownloadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/audit-trail`);
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('totalVerificationsCount').textContent = data.records.length;
+                    if (data.records.length > 0) document.getElementById('lastActivityTime').textContent = new Date(data.records[data.records.length-1].timestamp).toLocaleString();
+                }
+                const lookupResponse = await fetch(`${API_BASE}/lookup-history`);
+                const lookupData = await lookupResponse.json();
+                if (lookupData.success) document.getElementById('totalLookupsCount').textContent = lookupData.records.length;
+            } catch (error) { console.error('Error loading download stats:', error); }
+        }
+
         function showAlert(message, type) {
             const alertsDiv = document.getElementById('alerts');
             const alert = document.createElement('div');
@@ -927,111 +613,36 @@
             alert.textContent = message;
             alertsDiv.innerHTML = '';
             alertsDiv.appendChild(alert);
-
-            // Auto-remove after 5 seconds
-            setTimeout(() => {
-                alert.remove();
-            }, 5000);
+            setTimeout(() => alert.remove(), 5000);
         }
 
-        // Switch tabs
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
             event.target.classList.add('active');
             document.getElementById(tabName).classList.add('active');
         }
 
-        // Load lookup history
-        async function loadLookupHistory() {
-            try {
-                const response = await fetch(`${API_BASE}/lookup-history`);
-                const data = await response.json();
-
-                if (data.success) {
-                    const records = data.records;
-                    const tbody = document.getElementById('lookupTableBody');
-
-                    if (records.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #7f8c8d;">No lookups yet</td></tr>';
-                        return;
-                    }
-
-                    // Show last 30 records
-                    const recentRecords = records.slice(-30).reverse();
-                    tbody.innerHTML = recentRecords.map(record => {
-                        const time = new Date(record.timestamp).toLocaleTimeString();
-                        const date = new Date(record.timestamp).toLocaleDateString();
-                        return `
-                            <tr>
-                                <td>${date} ${time}</td>
-                                <td><strong>${record.roll_no}</strong></td>
-                                <td>${record.student_name}</td>
-                            </tr>
-                        `;
-                    }).join('');
-                }
-            } catch (error) {
-                console.error('Error loading lookup history:', error);
-            }
-        }
-
-        // Load download statistics
-        async function loadDownloadStats() {
-            try {
-                const response = await fetch(`${API_BASE}/audit-trail`);
-                const data = await response.json();
-
-                if (data.success) {
-                    const records = data.records;
-                    document.getElementById('totalVerificationsCount').textContent = records.length;
-                    
-                    if (records.length > 0) {
-                        const lastRecord = records[records.length - 1];
-                        const lastTime = new Date(lastRecord.timestamp);
-                        document.getElementById('lastActivityTime').textContent = lastTime.toLocaleString();
-                    }
-                }
-
-                // Load lookup count
-                const lookupResponse = await fetch(`${API_BASE}/lookup-history`);
-                const lookupData = await lookupResponse.json();
-                if (lookupData.success) {
-                    document.getElementById('totalLookupsCount').textContent = lookupData.records.length;
-                }
-            } catch (error) {
-                console.error('Error loading download stats:', error);
-            }
-        }
-
-        // Download Excel file
         async function downloadExcel() {
             try {
                 const downloadBtn = document.getElementById('downloadExcelBtn');
                 downloadBtn.disabled = true;
                 downloadBtn.innerHTML = '<span class="loading"></span>Preparing...';
-
                 const response = await fetch(`${API_BASE}/download-excel`);
-                
                 if (response.ok) {
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `Student_Records_Lookup_Tracker_${new Date().toISOString().split('T')[0]}.xlsx`;
+                    a.download = `Student_Records_${new Date().toISOString().split('T')[0]}.xlsx`;
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
-                    
                     showAlert('✓ Excel file downloaded successfully!', 'success');
-                } else {
-                    showAlert('Error downloading Excel file', 'danger');
-                }
-            } catch (error) {
-                showAlert(`Download error: ${error.message}`, 'danger');
-            } finally {
+                } else showAlert('Error downloading Excel file', 'danger');
+            } catch (error) { showAlert(`Download error: ${error.message}`, 'danger'); }
+            finally {
                 const downloadBtn = document.getElementById('downloadExcelBtn');
                 downloadBtn.disabled = false;
                 downloadBtn.innerHTML = '⬇ Download Excel File';
